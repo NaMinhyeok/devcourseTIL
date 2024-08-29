@@ -1,14 +1,13 @@
 package com.prgms.practiceboard.utils;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public abstract class BaseEntity {
     @Column(nullable = false)
@@ -22,4 +21,8 @@ public abstract class BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private DeleteStatus isDeleted;
+
+    public BaseEntity() {
+        this.isDeleted = DeleteStatus.ACTIVE;
+    }
 }
